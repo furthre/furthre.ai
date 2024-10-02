@@ -13,7 +13,7 @@ export const initWritingStyleStep = (slider) => {
   const otherCheckbox = document.querySelector<HTMLInputElement>("#styleOther");
   const otherTextInput = document.querySelector<HTMLInputElement>("#otherText");
   const otherTextError = new WFComponent("#otherTextError");
-  const maxSelections = 3;
+  const maxSelections = 1;
 
   // Initially hide the "Other" text input field
   otherTextInput.style.display = "none";
