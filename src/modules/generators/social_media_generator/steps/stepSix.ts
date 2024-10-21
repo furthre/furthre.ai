@@ -135,9 +135,7 @@ export const initAdditionalInstructionsStep = (slider) => {
               );
             }
             if (response.content.twitter_content) {
-              sections.push(
-                `<h1>Twitter</h1>${response.content.twitter_content}`
-              );
+              sections.push(`<h1>X</h1>${response.content.twitter_content}`);
             }
 
             // Join all sections with <hr> tag between them
@@ -221,9 +219,7 @@ export const initAdditionalInstructionsStep = (slider) => {
               );
             }
             if (response.content.twitter_content) {
-              sections.push(
-                `<h1>Twitter</h1>${response.content.twitter_content}`
-              );
+              sections.push(`<h1>X</h1>${response.content.twitter_content}`);
             }
 
             // Join all sections with <hr> tag between them
