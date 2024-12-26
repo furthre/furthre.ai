@@ -54,7 +54,7 @@ export function goPreviousSlide(): void {
 }
 
 // Helper function to check if a slide is inactive
-function isSlideInactive(slide: WFComponent): boolean {
+export function isSlideInactive(slide: WFComponent): boolean {
   return slide.getElement().hasAttribute("data-inactive");
 }
 
@@ -75,9 +75,7 @@ export function markSlideActive(slideId: string): void {
 }
 
 // Function to handle platform selection and mark slides as active or inactive
-export function handlePlatformSelection(
-  selectedPlatforms: HTMLInputElement[]
-): void {
+export function handlePlatformSelection(selectedPlatforms: HTMLInputElement[]): void {
   const allPlatformInputs = document.querySelectorAll(
     'input[name="select_platforms"]'
   );
@@ -93,4 +91,32 @@ export function handlePlatformSelection(
       }
     }
   });
+}
+
+/**
+ * Returns the total number of "active" slides in the slider 
+ * (i.e., slides NOT marked with data-inactive).
+ */
+export function getTotalActiveSlides(slider: WFSlider): number {
+  const allSlides = slider.getAllSlides();
+  return allSlides.filter((slide) => !isSlideInactive(slide)).length;
+}
+
+/**
+ * Returns the current slide's 1-based position among active slides.
+ */
+export function getActiveSlideIndexAmongActive(slider: WFSlider): number {
+  const allSlides = slider.getAllSlides();
+  const currentIndex = slider.getActiveSlideIndex();
+
+  // Build an array of active slide indices
+  const activeIndices: number[] = [];
+  allSlides.forEach((slide, index) => {
+    if (!isSlideInactive(slide)) {
+      activeIndices.push(index);
+    }
+  });
+
+  // Find where the current index sits among active slides
+  return activeIndices.indexOf(currentIndex) + 1; // 1-based
 }

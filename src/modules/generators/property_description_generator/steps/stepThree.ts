@@ -9,10 +9,7 @@ export const initStepThree = () => {
   const backButton = new WFComponent("#backStepThree");
   const errorElement = new WFComponent("#submitStepThreeError");
 
-  const squareFootageInput = new WFComponent("#squareFootageInput");
-  const lotSizeInput = new WFComponent("#lotSizeInput");
-  const bedroomsInput = new WFComponent("#bedroomsInput");
-  const bathroomsInput = new WFComponent("#bathroomsInput");
+  // REMAINING INPUTS in Step Three
   const otherFeaturesInput = new WFComponent("#otherFeaturesInput");
   const interiorDescriptionInput = new WFComponent("#interiorDescriptionInput");
   const renovationsInput = new WFComponent("#renovationsInput");
@@ -29,9 +26,7 @@ export const initStepThree = () => {
   const requestErrorWrapper = new WFComponent(".request_error_wrapper");
   const responseWrapper = new WFComponent(".response_wrapper");
   const responseContent = new WFComponent(".response_content");
-  const beginRequestAnimationTrigger = new WFComponent(
-    ".begin_request_animation_trigger"
-  );
+  const beginRequestAnimationTrigger = new WFComponent(".begin_request_animation_trigger");
   const submitFinalButton = new WFComponent("#submitFinal");
   const backFinalButton = new WFComponent("#backFinal");
   const submitRetryButton = new WFComponent("#submitRetry");
@@ -49,48 +44,18 @@ export const initStepThree = () => {
   submitButton.on("click", (event) => {
     event.preventDefault();
 
-    // Extracting form input values
-    const squareFootage = (
-      squareFootageInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const lotSize = (
-      lotSizeInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const bedrooms = (
-      bedroomsInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const bathrooms = (
-      bathroomsInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const otherFeatures = (
-      otherFeaturesInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const interiorDescription = (
-      interiorDescriptionInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const renovations = (
-      renovationsInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const favoriteThing = (
-      favoriteThingInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const coolFeature = (
-      coolFeatureInput.getElement() as HTMLInputElement
-    ).value.trim();
+    // Extracting form input values (moved square/lot/bed/bath to Step One)
+    const otherFeatures = (otherFeaturesInput.getElement() as HTMLInputElement).value.trim();
+    const interiorDescription = (interiorDescriptionInput.getElement() as HTMLInputElement).value.trim();
+    const renovations = (renovationsInput.getElement() as HTMLInputElement).value.trim();
+    const favoriteThing = (favoriteThingInput.getElement() as HTMLInputElement).value.trim();
+    const coolFeature = (coolFeatureInput.getElement() as HTMLInputElement).value.trim();
     const vibe = (vibeInput.getElement() as HTMLInputElement).value.trim();
-    const outdoorSpace = (
-      outdoorSpaceInput.getElement() as HTMLInputElement
-    ).value.trim();
-    const idealFor = (
-      idealForInput.getElement() as HTMLInputElement
-    ).value.trim();
+    const outdoorSpace = (outdoorSpaceInput.getElement() as HTMLInputElement).value.trim();
+    const idealFor = (idealForInput.getElement() as HTMLInputElement).value.trim();
 
-    // Form validation
+    // Form validation for remaining fields
     if (
-      !squareFootage ||
-      !lotSize ||
-      !bedrooms ||
-      !bathrooms ||
       !otherFeatures ||
       !interiorDescription ||
       !renovations ||
@@ -106,25 +71,25 @@ export const initStepThree = () => {
       errorElement.setText("");
       errorElement.setStyle({ display: "none" });
 
+      // Retrieve any existing data from localStorage
       const existingFormData = JSON.parse(
         localStorage.getItem("propertyFormData") || "{}"
       );
+
+      // Add this step's data
       const updatedFormData = {
         ...existingFormData,
-        square_footage: squareFootage,
-        lot_size: lotSize,
-        bedrooms: bedrooms,
-        bathrooms: bathrooms,
         other_features: otherFeatures,
         interior_description: interiorDescription,
-        renovations: renovations,
+        renovations,
         favorite_thing: favoriteThing,
         cool_feature: coolFeature,
-        vibe: vibe,
+        vibe,
         outdoor_space: outdoorSpace,
         ideal_for: idealFor,
       };
 
+      // Update in localStorage
       updateFormData(updatedFormData);
 
       // Show loading UI

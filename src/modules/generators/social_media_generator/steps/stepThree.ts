@@ -10,15 +10,21 @@ export const initStepThree = (slider) => {
   submitButton.on("click", () => {
     // Get the entered description from the textarea
     const description = (descriptionInput.getElement() as HTMLTextAreaElement)
-      .value;
+      .value
+      .trim();
 
-    if (!description.trim()) {
+    if (!description) {
       // If description is empty, show error
       errorElement.setText("Please enter a description.");
       // Display the Error message
       errorElement.setStyle({ display: "block" });
+    } else if (description.length < 25) {
+      // If description is less than 25 characters, show error
+      errorElement.setText("Description must be at least 25 characters long.");
+      // Display the Error message
+      errorElement.setStyle({ display: "block" });
     } else {
-      // Clear the error message if a description is entered
+      // Clear any error message if valid input is provided
       errorElement.setText("");
       // Hide the Error message
       errorElement.setStyle({ display: "none" });

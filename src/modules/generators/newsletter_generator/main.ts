@@ -1,3 +1,5 @@
+// main.ts
+import { onReady } from "@xatom/core";
 import { initializeSlider } from "./utils/sliderUtils";
 import { initStepOne } from "./steps/stepOne";
 import { initStepTwo } from "./steps/stepTwo";
@@ -8,17 +10,17 @@ import { initNewListingsStep } from "./steps/newListings";
 import { initSomethingFunStep } from "./steps/somethingFun";
 import { initTestimonialStep } from "./steps/testimonials";
 import { preventFormSubmitOnEnter } from "./utils/formUtils";
-import { onReady } from "@xatom/core";
+import { initProgressBar } from "./utils/progressBar"; // <-- 1) import the new file
 
 export function initializeNewsletterGenerator() {
   onReady(() => {
     // Prevent form submission on Enter key press
     preventFormSubmitOnEnter("#newsletterGeneratorForm");
 
-    // Initialize the slider for the multi-step form
+    // Initialize the slider
     const slider = initializeSlider(".multi-step_slider");
 
-    // Initialize the steps
+    // Initialize steps
     initStepOne();
     initStepTwo();
     initPersonalNoteStep();
@@ -27,5 +29,9 @@ export function initializeNewsletterGenerator() {
     initNewListingsStep();
     initSomethingFunStep();
     initTestimonialStep();
+
+    // 2) Finally, initialize the progress bar
+    //    Set "true" if you prefer showing "XX%" instead of "Step X of Y"
+    initProgressBar(slider, false);
   });
 }

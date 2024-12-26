@@ -1,18 +1,19 @@
 import { onReady } from "@xatom/core";
 import { initializeSlider } from "./utils/sliderUtils";
 import { initStepOne } from "./steps/stepOne";
-import { initFacebookStep } from "./steps/stepTwo/facebookStep"; // Import Facebook step
-import { initYoutubeStep } from "./steps/stepTwo/youtubeStep"; // Import YouTube step
-import { initTikTokStep } from "./steps/stepTwo/tiktokStep"; // Import TikTok step
-import { initInstagramStep } from "./steps/stepTwo/instagramStep"; // Import Instagram step
-import { initPinterestStep } from "./steps/stepTwo/pinterestStep"; // Import Pinterest step
-import { initLinkedInStep } from "./steps/stepTwo/linkedinStep"; // Import LinkedIn step
-import { initTwitterStep } from "./steps/stepTwo/twitterStep"; // Import Twitter step
-import { initStepThree } from "./steps/stepThree"; // Import Describe Content step
-import { initSelectToneStep } from "./steps/stepFour"; // Import Select Tone step
-import { initWritingStyleStep } from "./steps/stepFive"; // Import Writing Style step
-import { initAdditionalInstructionsStep } from "./steps/stepSix"; // Import Additional Instructions step
+import { initFacebookStep } from "./steps/stepTwo/facebookStep";
+import { initYoutubeStep } from "./steps/stepTwo/youtubeStep";
+import { initTikTokStep } from "./steps/stepTwo/tiktokStep";
+import { initInstagramStep } from "./steps/stepTwo/instagramStep";
+import { initPinterestStep } from "./steps/stepTwo/pinterestStep";
+import { initLinkedInStep } from "./steps/stepTwo/linkedinStep";
+import { initTwitterStep } from "./steps/stepTwo/twitterStep";
+import { initStepThree } from "./steps/stepThree";
+import { initSelectToneStep } from "./steps/stepFour";
+import { initWritingStyleStep } from "./steps/stepFive";
+import { initAdditionalInstructionsStep } from "./steps/stepSix";
 import { preventFormSubmitOnEnter } from "./utils/formUtilities";
+import { initProgressBar } from "./utils/progressBar"; // <-- Import
 
 export function initSocialMediaGenerator() {
   onReady(() => {
@@ -24,7 +25,7 @@ export function initSocialMediaGenerator() {
     // Initialize Step 1
     initStepOne();
 
-    // Initialize all steps for the different platforms
+    // Initialize all platform steps (Step 2 variants)
     initFacebookStep(slider);
     initYoutubeStep(slider);
     initTikTokStep(slider);
@@ -33,16 +34,20 @@ export function initSocialMediaGenerator() {
     initLinkedInStep(slider);
     initTwitterStep(slider);
 
-    // Initialize the Describe Content step
+    // Step 3: Describe Content
     initStepThree(slider);
 
-    // Initialize the Select Tone step
+    // Step 4: Select Tone
     initSelectToneStep(slider);
 
-    // Initialize the Writing Style step
+    // Step 5: Writing Style
     initWritingStyleStep(slider);
 
-    // Initialize the Additional Instructions step
+    // Step 6: Additional Instructions
     initAdditionalInstructionsStep(slider);
+
+    // Finally, set up the progress bar.
+    // true/false => control if you want "XX%" or "Step X of Y"
+    initProgressBar(slider, false);
   });
 }

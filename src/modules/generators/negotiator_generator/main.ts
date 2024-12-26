@@ -1,3 +1,4 @@
+// main.ts
 import { initializeSlider } from "./utils/sliderUtils";
 import { preventFormSubmitOnEnter } from "./utils/formUtils";
 import { onReady } from "@xatom/core";
@@ -13,6 +14,7 @@ import { initStepNine } from "./steps/stepNine";
 import { initStepTen } from "./steps/stepTen";
 import { initStepEleven } from "./steps/stepEleven";
 import { initStepTwelve } from "./steps/stepTwelve";
+import { initProgressBar } from "./utils/progressBar"; // <-- import our new file
 
 export function initializeNegotiatorGenerator() {
   onReady(() => {
@@ -35,5 +37,9 @@ export function initializeNegotiatorGenerator() {
     initStepTen();
     initStepEleven();
     initStepTwelve();
+
+    // Initialize the progress bar
+    // Pass true if you’d rather display "XX%" => initProgressBar(slider, true);
+    initProgressBar(slider, false);
   });
 }

@@ -9,66 +9,47 @@ export const initStepOne = () => {
   const errorElement = new WFComponent("#submitStepOneError");
   const addressInput = new WFComponent("#propertyAddressInput");
 
-  const inputElement = addressInput.getElement() as HTMLInputElement;
+  // NEW: Inputs moved from Step Three to Step One
+  const squareFootageInput = new WFComponent("#squareFootageInput");
+  const lotSizeInput = new WFComponent("#lotSizeInput");
+  const bedroomsInput = new WFComponent("#bedroomsInput");
+  const bathroomsInput = new WFComponent("#bathroomsInput");
 
-  /*
-  // Autocomplete functionality - commented out
-  const dropdown = document.createElement('div');
-  dropdown.id = 'autocomplete-dropdown';
-  dropdown.style.position = 'absolute';
-  dropdown.style.backgroundColor = 'white';
-  dropdown.style.border = '1px solid #ccc';
-  dropdown.style.width = '100%';
-  dropdown.style.zIndex = '1000';
-  inputElement.parentNode?.appendChild(dropdown);
-
-  inputElement.addEventListener('input', function () {
-    const query = inputElement.value;
-
-    if (query.length >= 3) {
-      apiClient.get('/autocomplete', { params: { text: query } })
-        .fetch()
-        .then((data: GeoapifyResponse) => {
-          const suggestions = data.features;
-          dropdown.innerHTML = ''; 
-
-          suggestions.forEach(suggestion => {
-            const option = document.createElement('div');
-            option.className = 'dropdown-option';
-            option.style.padding = '8px';
-            option.style.cursor = 'pointer';
-            option.innerHTML = suggestion.properties.formatted;
-            option.addEventListener('click', () => {
-              inputElement.value = suggestion.properties.formatted;
-              dropdown.innerHTML = ''; 
-            });
-            dropdown.appendChild(option);
-          });
-        })
-        .catch((error: any) => {
-          console.error('Error fetching autocomplete suggestions:', error);
-        });
-    } else {
-      dropdown.innerHTML = ''; 
-    }
-  });
-  */
+  const addressElement = addressInput.getElement() as HTMLInputElement;
+  const squareFootageElement = squareFootageInput.getElement() as HTMLInputElement;
+  const lotSizeElement = lotSizeInput.getElement() as HTMLInputElement;
+  const bedroomsElement = bedroomsInput.getElement() as HTMLInputElement;
+  const bathroomsElement = bathroomsInput.getElement() as HTMLInputElement;
 
   // Handle the next step button click
   nextButton.on("click", (event) => {
     event.preventDefault(); // Prevent default button action
 
-    const address = inputElement.value.trim();
+    const address = addressElement.value.trim();
+    const squareFootage = squareFootageElement.value.trim();
+    const lotSize = lotSizeElement.value.trim();
+    const bedrooms = bedroomsElement.value.trim();
+    const bathrooms = bathroomsElement.value.trim();
 
-    if (!address) {
-      errorElement.setText("Please enter the property address.");
+    // Basic validation: Require all fields
+    if (!address || !squareFootage || !lotSize || !bedrooms || !bathrooms) {
+      errorElement.setText("Please fill out all fields.");
       errorElement.setStyle({ display: "block" });
     } else {
+      // Hide error if all fields are filled
       errorElement.setText("");
       errorElement.setStyle({ display: "none" });
 
-      updateFormData({ property_address: address });
+      // Update form data in localStorage
+      updateFormData({
+        property_address: address,
+        square_footage: squareFootage,
+        lot_size: lotSize,
+        bedrooms: bedrooms,
+        bathrooms: bathrooms,
+      });
 
+      // Move to next slide
       goNextSlide();
     }
   });
