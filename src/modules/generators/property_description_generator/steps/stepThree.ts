@@ -119,19 +119,38 @@ export const initStepThree = () => {
 
         postFormData.onData((response) => {
           if (response && response.content) {
-            // Success: Show response content
-            const htmlContent = response.content
-              .replace(/```html|```/g, "") // Remove ```html and ```
-              .trim(); // Trim leading/trailing spaces
+            let combinedHTML = "";
+            // Check if response.content is an object with social_media and property_description
+            if (
+              typeof response.content === "object" &&
+              response.content.property_description &&
+              response.content.social_media
+            ) {
+              const propertyDescriptionHTML = response.content.property_description
+                .replace(/```html|```/g, "")
+                .trim();
+              const socialMediaHTML = response.content.social_media
+                .replace(/```html|```/g, "")
+                .trim();
+              combinedHTML = `${propertyDescriptionHTML}<br/><hr/><br/><h2>Suggested Social Media Posts</h2><br/>${socialMediaHTML}`;
+            } else if (typeof response.content === "string") {
+              combinedHTML = response.content
+                .replace(/```html|```/g, "")
+                .trim();
+            } else {
+              console.error("Unexpected response structure.");
+              errorElement.setText(
+                "There was an error processing the response. Please try again."
+              );
+              errorElement.setStyle({ display: "block" });
+              return;
+            }
 
             loadingWrapper.setStyle({ display: "none" });
             requestLoadingWrapper.setStyle({ display: "none" });
             responseWrapper.setStyle({ display: "block" });
-
-            // Insert the cleaned HTML content into responseContent
-            responseContent.setHTML(htmlContent);
+            responseContent.setHTML(combinedHTML);
           } else {
-            // Handle the case where content is not found
             console.error("Unexpected response structure: 'content' not found");
             errorElement.setText(
               "There was an error processing the response. Please try again."
@@ -170,14 +189,36 @@ export const initStepThree = () => {
 
         retryPostFormData.onData((response) => {
           if (response && response.content) {
-            const htmlContent = response.content
-              .replace(/```html|```/g, "") // Clean up unwanted markdown
-              .trim(); // Trim leading/trailing spaces
+            let combinedHTML = "";
+            if (
+              typeof response.content === "object" &&
+              response.content.property_description &&
+              response.content.social_media
+            ) {
+              const propertyDescriptionHTML = response.content.property_description
+                .replace(/```html|```/g, "")
+                .trim();
+              const socialMediaHTML = response.content.social_media
+                .replace(/```html|```/g, "")
+                .trim();
+              combinedHTML = `${propertyDescriptionHTML}<br/><hr/><br/><h2>Suggested Social Media Posts</h2><br/>${socialMediaHTML}`;
+            } else if (typeof response.content === "string") {
+              combinedHTML = response.content
+                .replace(/```html|```/g, "")
+                .trim();
+            } else {
+              console.error("Unexpected response structure.");
+              errorElement.setText(
+                "There was an error processing the response. Please try again."
+              );
+              errorElement.setStyle({ display: "block" });
+              return;
+            }
 
             loadingWrapper.setStyle({ display: "none" });
             requestLoadingWrapper.setStyle({ display: "none" });
             responseWrapper.setStyle({ display: "block" });
-            responseContent.setHTML(htmlContent);
+            responseContent.setHTML(combinedHTML);
           } else {
             console.error("Unexpected response structure: 'content' not found");
             errorElement.setText(
