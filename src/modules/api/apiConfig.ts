@@ -12,7 +12,7 @@ const getTokenFromLocalStorage = () => {
 
 // Configure AxiosClient with the base API URL
 const axiosConfigurator = new AxiosClientConfigurator(
-  "https://x8ki-letl-twmt.n7.xano.io/api:lV3_La8Q"
+  "https://x2bq-i3lr-rb4m.n7d.xano.io/api:lV3_La8Q"
 );
 
 // Add a request interceptor to include the auth token in each request

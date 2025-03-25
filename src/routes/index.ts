@@ -15,6 +15,7 @@ import { initForgotPasswordForm } from "../modules/auth/reset_password/forgotPas
 import { initMagicLinkLogin } from "../modules/auth/reset_password/magicLink";
 import { initHistoryPage } from "../modules/dashboard/history";
 import { initTokenCheck } from "../modules/dashboard/outOfTokensDialog";
+import { initBillingErrorCheck } from "../modules/dashboard/billingErrorDialog"
 
 new WFRoute("/dashboard/generators/social-media").execute(() => {
   console.log("init social media generator");
@@ -64,6 +65,7 @@ new WFRoute("/dashboard").execute(() => {
 new WFRoute("/dashboard/(.*)").execute(() => {
   console.log("init dashboard");
   initDashboard();
+  initBillingErrorCheck();
 });
 
 new WFRoute("/dashboard/generators/(.*)").execute(() => {

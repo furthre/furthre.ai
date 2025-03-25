@@ -7,7 +7,6 @@ const SIGNUP_ENDPOINT = "/auth/signup";
 const LOGOUT_ENDPOINT = "/auth/logout";
 const ME_ENDPOINT = "/auth/me";
 
-// Define UserInfo interface with additional fields
 interface UserInfo {
   name: string;
   email: string;
@@ -15,12 +14,12 @@ interface UserInfo {
   tokens_remaining: number;
   role: "admin" | "user";
   subscription_type?: "monthly" | "annual"; // Allow undefined as well
-  brokerage: string; // New field
-  licensed_in: string; // New field
-  years_experience: number; // New field
+  brokerage: string;
+  licensed_in: string;
+  years_experience: number;
+  billing_error?: boolean; // New field added here
 }
 
-// Updated AuthResponse to reflect additional fields
 interface AuthResponse {
   token: string;
   user_details: {
@@ -30,9 +29,10 @@ interface AuthResponse {
     tokens_remaining: number;
     role: "admin" | "user";
     subscription_type: string;
-    brokerage: string; // New field
-    licensed_in: string; // New field
-    years_experience: number; // New field
+    brokerage: string;
+    licensed_in: string;
+    years_experience: number;
+    billing_error: boolean; // New field added here (or optional, if applicable)
   };
 }
 
@@ -346,33 +346,32 @@ const fetchCurrentUser = async (): Promise<boolean> => {
     meRequest.onData((data: AuthResponse) => {
       const { user_details } = data;
 
-      // Update WFAuth and localStorage with the user information
+      // Update WFAuth with the user information including billing_error
       userAuth.setUser({
         name: user_details.name,
         email: user_details.email,
         plan: user_details.plan,
         tokens_remaining: user_details.tokens_remaining,
         role: user_details.role,
-        subscription_type: getValidSubscriptionType(
-          user_details.subscription_type
-        ),
-        brokerage: user_details.brokerage, // New field
-        licensed_in: user_details.licensed_in, // New field
-        years_experience: user_details.years_experience, // New field
+        subscription_type: getValidSubscriptionType(user_details.subscription_type),
+        brokerage: user_details.brokerage,
+        licensed_in: user_details.licensed_in,
+        years_experience: user_details.years_experience,
+        billing_error: user_details.billing_error, // include billing_error
       });
 
+      // Update localStorage with the user info including billing_error
       setUserInfoInLocalStorage({
         name: user_details.name,
         email: user_details.email,
         plan: user_details.plan,
         tokens_remaining: user_details.tokens_remaining,
         role: user_details.role,
-        subscription_type: getValidSubscriptionType(
-          user_details.subscription_type
-        ),
-        brokerage: user_details.brokerage, // New field
-        licensed_in: user_details.licensed_in, // New field
-        years_experience: user_details.years_experience, // New field
+        subscription_type: getValidSubscriptionType(user_details.subscription_type),
+        brokerage: user_details.brokerage,
+        licensed_in: user_details.licensed_in,
+        years_experience: user_details.years_experience,
+        billing_error: user_details.billing_error, // include billing_error
       });
 
       userAuth.setRole(user_details.role);
@@ -391,6 +390,7 @@ const fetchCurrentUser = async (): Promise<boolean> => {
     return false;
   }
 };
+
 
 export {
   login,
