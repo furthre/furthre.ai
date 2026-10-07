@@ -109,6 +109,11 @@ export const initSignupForm = () => {
     const password = passwordInput.getElement().value.trim();
     const terms_of_service = termsInput.getElement().checked;
 
+    const turnstile_token =
+      document.querySelector<HTMLInputElement>(
+        'input[name="cf-turnstile-response"]'
+      )?.value || "";
+
     // Validate inputs
     if (!name) errorMessages.push("Name is required.");
     if (!email || !/^\S+@\S+\.\S+$/.test(email))
@@ -121,6 +126,9 @@ export const initSignupForm = () => {
       errorMessages.push("Password does not meet the required criteria.");
     if (!terms_of_service)
       errorMessages.push("You must agree to the terms of service.");
+
+    if (!turnstile_token)
+      errorMessages.push("Please complete the security verification.");
 
     // If there are any validation errors, show them in the createAccountError element
     if (errorMessages.length > 0) {
@@ -141,7 +149,8 @@ export const initSignupForm = () => {
         brokerage,
         licensed_in,
         years_experience,
-        terms_of_service
+        terms_of_service,
+        turnstile_token
       );
 
       if (signupResult.success) {
