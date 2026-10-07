@@ -200,7 +200,8 @@ const signup = async (
   brokerage: string,
   licensed_in: string,
   years_experience: number,
-  terms_of_service: boolean
+  terms_of_service: boolean,
+  turnstile_token: string
 ): Promise<{ success: boolean; message?: string }> => {
   if (!terms_of_service) {
     return { success: false, message: "You must accept the terms of service" };
@@ -237,6 +238,7 @@ const signup = async (
         licensed_in,
         years_experience,
         terms_of_service,
+        turnstile_token,
       },
     });
 
